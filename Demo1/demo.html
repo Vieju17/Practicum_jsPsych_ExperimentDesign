@@ -91,6 +91,9 @@
       type: jsPsychImageKeyboardResponse,
       stimulus: jsPsych.timelineVariable("stimulus"),
       choices: ["f", "j"],
+      data: {
+        task: "response",
+      },
     };
 
     //Creation of the procedure
@@ -100,7 +103,6 @@
       randomize_order: true,
       repetitions: 5,
       data: {
-        task: "response",
         correct_response: jsPsych.timelineVariable("correct_response"),
       },
       on_finish: function (data) {
@@ -119,7 +121,7 @@
         var trials = jsPsych.data.get().filter({ task: "response" });
         var correct_trials = trials.filter({ correct: true });
         var accuracy = Math.round(
-          (correct_trials.count() / trials.count()) * 200 // For some reason I have to multiply by 200 in order to get the score in a 100%
+          (correct_trials.count() / trials.count()) * 100
         );
         var rt = Math.round(correct_trials.select("rt").mean());
 
