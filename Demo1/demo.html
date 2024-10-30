@@ -23,7 +23,7 @@
     const jsPsych = initJsPsych({
       on_finish: function () {
         var csv = jsPsych.data.get().csv();
-        var filename = jsPsych.data.get().values()[1].Part_ID;
+        var filename = jsPsych.data.get().values()[0].Part_ID;
         createCSV(csv, filename);
         jsPsych.data.displayData();
       },
@@ -43,11 +43,8 @@
         "<p> Welcome to the experiment! </p> Please, complete the form.",
       html: "<p>Participant ID: <input name='Part_ID' type='text'/></p>",
       on_finish: function (data) {
-        console.log("Data on finish:", data);
-        const responses = data.responses;
-        const parsedResponses = JSON.parse(responses);
         jsPsych.data.addProperties({
-          Part_ID: parsedResponses.Part_ID,
+          Part_ID: data.response.Part_ID,
         });
       },
     };
