@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+
+    <!-- These are the plugins -->
+    <script src="https://unpkg.com/jspsych@8.0.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@2.0.0"></script>
+
+    <!-- This is calling the stylesheet for aesthetics -->
+    <link
+      href="https://unpkg.com/jspsych@8.0.2/css/jspsych.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body></body>
+  <script>
+    var jsPsych = initJsPsych({
+      on_finish: function () {
+        jsPsych.data.displayData(); // Display collected data at the end
+      },
+    });
+
+    var timeline = [];
+
+    var welcome = {
+      type: jsPsychSurveyHtmlForm,
+      preamble:
+        "<p> Welcome to the experiment! </p> Please, complete the form.",
+      html: `
+            <p>Participant ID: <input name='Part_ID' type='text' placeholder='Enter your ID'/></p>
+        `,
+      on_finish: function (data) {
+        // Log the data object to inspect its structure
+        console.log("Data on finish:", data);
+
+        // Check if responses are defined and contain Part_ID
+        if (data.responses) {
+          const responses = data.responses; // Get the responses
+          console.log("Responses:", responses); // Log responses for inspection
+
+          // Access Part_ID safely
+          jsPsych.data.addProperties({
+            part_ID: responses.Part_ID ? responses.Part_ID : "No ID provided", // Use default if not provided
+          });
+        } else {
+          console.warn("No responses object found.");
+        }
+      },
+    };
+    timeline.push(welcome);
+
+    jsPsych.run(timeline); // Run the experiment
+  </script>
+</html>
