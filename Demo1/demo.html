@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
+    <script src="utilities.js"></script>
 
     <!-- This is calling the stylesheet for aesthetics -->
     <link
@@ -22,6 +23,9 @@
   <script>
     var jsPsych = initJsPsych({
       on_finish: function () {
+        var csv = jsPsych.data.get().csv();
+        var filename = "SRT_task.csv";
+        createCSV(csv, filename);
         jsPsych.data.displayData();
       },
     });
