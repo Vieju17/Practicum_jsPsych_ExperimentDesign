@@ -4,27 +4,23 @@
     <title>demo</title>
 
     <!-- These are the plugins -->
-    <script src="https://unpkg.com/jspsych@8.0.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@2.0.0"></script>
+    <script src="jspsych/dist/jspsych.js"></script>
+    <script src="jspsych/dist/plugin-survey-html-form.js"></script>
+    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-preload.js"></script>
+    <script src="jspsych/dist/plugin-image-keyboard-response.js"></script>
 
     <!-- This is the utilities module  -->
     <script src="utilities.js"></script>
 
     <!-- This is calling the stylesheet for aesthetics -->
-    <link
-      href="https://unpkg.com/jspsych@8.0.2/css/jspsych.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body></body>
 
   <script>
-    var jsPsych = initJsPsych({
+    const jsPsych = initJsPsych({
       on_finish: function () {
         var csv = jsPsych.data.get().csv();
         var filename = jsPsych.data.get().values()[1].Part_ID;
