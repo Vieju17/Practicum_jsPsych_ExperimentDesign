@@ -1,0 +1,33 @@
+<!-- This is an n-back experiment, aimed to assessing memory -->
+<!-- Link: https://www.youtube.com/watch?v=fYKaKTvybCI&list=PLnfo1lBY1P2Mf_o6rV5wiqqn92Mw3UTGh -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>demo2</title>
+
+    <!-- Plugins -->
+    <script src="https://unpkg.com/jspsych@8.0.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+
+    <!-- Stylesheet -->
+    <link
+      href="https://unpkg.com/jspsych@8.0.2/css/jspsych.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body></body>
+
+  <script>
+    var timeline = [];
+
+    var n_back_trial = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<span style="font-size: 96px;">X</span>',
+    };
+  </script>
+</html>

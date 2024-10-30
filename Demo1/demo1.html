@@ -4,27 +4,26 @@
     <title>demo</title>
 
     <!-- These are the plugins -->
-    <script src="https://unpkg.com/jspsych@8.0.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
+    <script src="jspsych/dist/jspsych.js"></script>
+    <script src="jspsych/dist/plugin-survey-html-form.js"></script>
+    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-preload.js"></script>
+    <script src="jspsych/dist/plugin-image-keyboard-response.js"></script>
+
+    <!-- This is the utilities module  -->
     <script src="utilities.js"></script>
 
     <!-- This is calling the stylesheet for aesthetics -->
-    <link
-      href="https://unpkg.com/jspsych@8.0.2/css/jspsych.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body></body>
 
   <script>
-    var jsPsych = initJsPsych({
+    const jsPsych = initJsPsych({
       on_finish: function () {
         var csv = jsPsych.data.get().csv();
-        var filename = "SRT_task.csv";
+        var filename = jsPsych.data.get().values()[0].Part_ID;
         createCSV(csv, filename);
         jsPsych.data.displayData();
       },
@@ -39,8 +38,15 @@
     timeline.push(preload);
 
     var welcome = {
-      type: jsPsychHtmlKeyboardResponse,
-      stimulus: "Welcome to the experiment! Please, press any key to begin",
+      type: jsPsychSurveyHtmlForm,
+      preamble:
+        "<p> Welcome to the experiment! </p> Please, complete the form.",
+      html: "<p>Participant ID: <input name='Part_ID' type='text'/></p>",
+      on_finish: function (data) {
+        jsPsych.data.addProperties({
+          Part_ID: data.response.Part_ID,
+        });
+      },
     };
     timeline.push(welcome);
 
@@ -72,6 +78,7 @@
 
     //Creation of fixation point
     var fixation = {
+      screen_id: "fixation",
       type: jsPsychHtmlKeyboardResponse,
       stimulus: '<div style="font-size:60px;">+</div>',
       choices: "NO_KEYS",
@@ -88,6 +95,7 @@
 
     //Creating of trial/test
     var test = {
+      screen_id: "test",
       type: jsPsychImageKeyboardResponse,
       stimulus: jsPsych.timelineVariable("stimulus"),
       choices: ["f", "j"],
