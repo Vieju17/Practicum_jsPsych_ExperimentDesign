@@ -4,30 +4,35 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Basic data -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>demo2</title>
 
     <!-- Plugins -->
-    <script src="https://unpkg.com/jspsych@8.0.2"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+    <script src="jspsych/dist/jspsych.js"></script>
+    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
 
     <!-- Stylesheet -->
-    <link
-      href="https://unpkg.com/jspsych@8.0.2/css/jspsych.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body></body>
 
   <script>
+    const jsPsych = initJsPsych({
+      on_finish: function () {
+        jsPsych.data.displaydata();
+      },
+    });
+
     var timeline = [];
 
     var n_back_trial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: '<span style="font-size: 96px;">X</span>',
     };
+    timeline.push(n_back_trial);
+    jsPsych.run(timeline);
   </script>
 </html>
