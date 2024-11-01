@@ -14,7 +14,7 @@
     <script src="jspsych/dist/plugin-survey-html-form.js"></script>
 
     <!-- Stylesheet -->
-    <script src="jspsych/dist/jspsych.css"></script>
+    <link rel="stylesheet" href="jspsych/dist/jspsych.css" />
   </head>
   <body></body>
   <script>
@@ -31,5 +31,9 @@
       preamble: "This is a self-paced reading task",
       html: "<p></p>",
     };
+
+    timeline.push(welcome);
+
+    jsPsych.run(timeline);
   </script>
 </html>
