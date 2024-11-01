@@ -38,6 +38,24 @@ Link: https://www.youtube.com/watch?v=fYKaKTvybCI&list=PLnfo1lBY1P2Mf_o6rV5wiqqn
 
     var sequence = [];
 
+    var welcome = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus:
+        "Welcome to the <i>n</i>-back test!" +
+        "<p>Thank you in advance for your precious time.</p>",
+    };
+    timeline.push(welcome);
+
+    var instructions = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus:
+        "For this test, you will be presented with a sequence of letters." +
+        "<p>Your task is to press M whenever a letter appears that matches the one that appeared two letters back.</p>" +
+        "<p>For instance, say you are shown Z, then C, then Z. In such case, you should press M when seeing Z for the second time.</p>",
+      post_trial_gap: 2000,
+    };
+    timeline.push(instructions);
+
     var n_back_trial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: function () {
