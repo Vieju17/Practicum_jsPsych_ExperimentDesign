@@ -1,0 +1,120 @@
+<!-- This is an n-back experiment, aimed to assessing memory
+Link: https://www.youtube.com/watch?v=fYKaKTvybCI&list=PLnfo1lBY1P2Mf_o6rV5wiqqn92Mw3UTGh -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Basic data -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>N-Back Test</title>
+
+    <!-- Plugins -->
+    <script src="common/jspsych/dist/jspsych.js"></script>
+    <script src="common/jspsych/dist/plugin-html-keyboard-response.js"></script>
+
+    <!-- Utilities  -->
+    <script src="common/utilities.js"></script>
+
+    <!-- Stylesheet -->
+    <link
+      href="common/jspsych/dist/jspsych.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body></body>
+
+  <script>
+    const jsPsych = initJsPsych({
+      on_finish: function () {
+        var csv = jsPsych.data.get().csv();
+        var filename = "test"; // jsPsych.data.get().values()[0].Part_ID;
+        createCSV(csv, filename);
+        jsPsych.data.displayData();
+      },
+    });
+
+    var timeline = [];
+
+    var n_back_items = ["Z", "X", "C", "V", "B", "N"];
+
+    var sequence = [];
+
+    var welcome = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus:
+        "Welcome to the <i>n</i>-back test!" +
+        "<p>Thank you in advance for your precious time.</p>",
+    };
+    timeline.push(welcome);
+
+    var instructions = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus:
+        "For this test, you will be presented with a sequence of letters." +
+        "<p>Your task is to press M whenever a letter appears that matches the one that appeared two letters back.</p>" +
+        "<p>For instance, say you are shown Z, then C, then Z. In such case, you should press M when seeing Z for the second time.</p>",
+      post_trial_gap: 2000,
+    };
+    timeline.push(instructions);
+
+    var n_back_trial = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: function () {
+        if (sequence.length < 2) {
+          var letter = jsPsych.randomization.sampleWithoutReplacement(
+            n_back_items,
+            1
+          )[0];
+        } else {
+          if (jsPsych.timelineVariable("match", true) == true) {
+            var letter = sequence[sequence.length - 2];
+          } else {
+            var possible_letters =
+              jsPsych.randomization.sampleWithoutReplacement(n_back_items, 2);
+            if (possible_letters[0] != sequence[sequence.length - 2]) {
+              var letter = possible_letters[0];
+            } else {
+              var letter = possible_letters[1];
+            }
+          }
+        }
+        sequence.push(letter);
+        return '<span style="font-size: 96px;">' + letter + "</span>";
+      },
+      choices: ["M"],
+      trial_duration: 1500,
+      response_ends_trial: false,
+      post_trial_gap: 500,
+      data: {
+        match: jsPsych.timelineVariable("match"),
+      },
+      on_finish: function (data) {
+        if (data.match == true) {
+          data.correct = data.key_press != null;
+        }
+        if (data.match == false) {
+          data.correct = data.key_press == null;
+        }
+      },
+    };
+
+    var n_back_trials = [{ match: true }, { match: false }];
+
+    var n_back_sequence = {
+      timeline: [n_back_trial],
+      timeline_variables: n_back_trials,
+      sample: {
+        type: "with-replacement",
+        size: 12,
+        weights: [1, 2],
+      },
+    };
+
+    timeline.push(n_back_sequence);
+
+    jsPsych.run(timeline);
+  </script>
+</html>
