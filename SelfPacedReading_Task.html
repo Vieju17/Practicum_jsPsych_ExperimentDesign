@@ -3,20 +3,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Basic data -->
+    <!-- Meta data -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Self Paced Reading Test</title>
 
     <!-- Plugins -->
-    <script src="jspsych/dist/jspsych.js"></script>
-    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
-    <script src="jspsych/dist/plugin-survey-html-form.js"></script>
+    <script src="common/jspsych/dist/jspsych.js"></script>
+    <script src="common/jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script src="common/jspsych/dist/plugin-survey-html-form.js"></script>
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="jspsych/dist/jspsych.css" />
+    <link rel="stylesheet" href="common/jspsych/dist/jspsych.css" />
   </head>
   <body></body>
+
+  <!--Script Beginning-->
   <script>
     const jsPsych = initJsPsych({
       on_finish: function () {
@@ -24,8 +26,10 @@
       },
     });
 
+    // Timeline
     var timeline = [];
 
+    // Welcome Prompt
     var welcome = {
       type: jsPsychSurveyHtmlForm,
       preamble: "This is a self-paced reading task",
